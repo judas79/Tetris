@@ -1,0 +1,63 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class GameBoard : MonoBehaviour
+{
+    // T10 first, a representation of our gameboard, inside of an array, be able to access this from outside of our array
+    // use a bunch of Transforms, so we don't have to constantly refer everything as a game object transform, but as simple transform instead
+    // gameBoard is a 10 by 20 array
+    public static Transform[,] gameBoard = new Transform[10, 20];
+
+    // T10 this is temporary, and will not be in the final game.
+    // T10 print out everything that the gameboard has to the MyArray, object we created
+    public static void PrintArray()
+    {
+        // T10 set up array output
+        string arrayOutput = "";
+
+        // T10 gets -1 from the beginning of the index which is 0, for rows and columns pf array
+        int iMax = gameBoard.GetLength(0) - 1;
+        int jMax = gameBoard.GetLength(1) - 1;
+
+        // T10 cycle through the array and print it all out to MyArray
+        for (int j = jMax; j >= 0; j--)
+        {
+            for (int i = 0; i <= iMax; i++)
+            {
+                // T10 check inside array, if we have a null value, print out n
+                // if we do not have a null value prin an x, which represents our shapes
+                if (gameBoard[i, j] == null)
+                {
+                    // T10 output an N to our MyArray if the cell is Null, or else; it has a shape output an X
+                    arrayOutput += "N ";
+                }
+                else
+                {
+                    arrayOutput += "X ";
+                }                
+            }
+            // add empty newlines
+            arrayOutput += "\n \n";
+        }
+        // T10 Get the gameObject MyArray text component and,
+        // put the information in the MyArray component text box
+        var myArrayComp = GameObject.Find("MyArray").GetComponent<Text>();
+        myArrayComp.text = arrayOutput;
+    }
+
+
+    /*NOT USED HERE
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    */
+}

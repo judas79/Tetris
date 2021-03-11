@@ -1,0 +1,225 @@
+After the tutorials, we decided to add features to diplay the final score, and the high score,
+in the GameOver Scene.
+
+Double click the GameOver Scene, to load that in Unity.
+In our hierarchy, right click Canvas, UI, text, and rename the text to GOFinalScoreLabel.
+Unzoom in your scene view then drag the GOFinalScoreLabel to the top center.
+Set the GOFinalScoreLabel settings to:
+Scale x / y = 0.1
+Text = Final Score:
+Font size = 10 
+Color = White
+
+Next Duplicate GOFinalScoreLabel, to save time with the setting, rename it to GOScore
+The settings are thr same except:
+Text = 00
+Center this below and centered under GOFinalScoreLabel.
+
+Duplicate, GOFinalScoreLabel, again and name it GOHighScoreLabel,
+Only change setting:
+Text = High Score:
+Drag the GOHighScoreLabel, below the Game Over text, and keep it centered.
+
+Duplicate, GOHighScoreLabel, and rename it to GOHighScore, and center it below the GOHighScoreLabel.
+Change the setting:
+text = 00
+
+********************************* Buttons ***************************************
+
+Next, right click on Canvas, UI, Button, and rename it to EndGameButton.
+Zoom out to get the huge button, and roughly drag it into the camera area.
+Lower the Scale to x / y = .03
+Color = 128 transparency. (slide the bottom slider for the color picker halfway)
+Within the EndGameButton in hierarchy you can expand it and choose text.
+Change settings:
+Color = White
+Text = End Game
+Now drag it to the right top of your GameOver screen
+
+Next, in Assets, Scripts, Create C# script and name it Control, then double click it and continue in VS, editing it...
+After returning from VS, in the GameOver Scene, select the Main Camera from hierarchy, and drag our Control script into its settings area,
+below the add component button.
+I needs at least one Component to be linked to, to work, and main camera, will do nicely for that purpose.
+After that, select the EndGame button, in heirarchy, go to the bottom of its setting, where it say 'On Click()' and click the + button,
+to add a method to close our game.
+Under, where it say, 'Runtime only', drag the Main Camera from heirarchy, into that space.
+Click the triangle drop down where it say 'No Function' and chose Control so that it expands itself in a contents box,
+and choose the 'Exit()' function you created, in our Control Script.
+Try out the EndGameButton, after compiling it;   it will not work by running the game in the editor!
+
+Duplicate the EndGameButton and rename it to PlayAgain.
+In setting:
+Text = Play Again
+Drag it to the left top side of our gameover window.
+
+Next, we will go into our Control Script, and create a function to PlayAgain, from the begining of the MainScene,
+but after the SplasCsreen.  So continue there, in VS...
+
+After returning, we will go into the GameOver Scene, and select our PlayAgain button in heirarchy.
+Drag our Control script into the PlayAgain buttons settings area, where the add component button is.
+Next, below the 'On Click()' and 'Runtime Only' boxes, drag out PlayAgain button into the empty box, so our program will look for our button.
+Change, the 'No Function' dropdown to 'Control' and select the 'PlayAgain' function, from the list.
+Check to make sure your Scenes are all in the File, Build Settings, and in the order you want them to load, then press File, Save,
+and run the game to check your button.
+
+**************************************** Splash Screen ****************************************
+
+Next we will add a splashScreen to tetris, which will play a video, start the Tetris song, the run the MainScene,
+after a few seconds.
+
+First, create new Scene in Assets, Scenes, and rename it to SplashScreen.
+Next, in Scripts create a new C# script and rename it SpashScreen, also.
+Double Click the SplashScreen Script and we will continue with our notes in SplashScreen.cs within VS.
+
+After returning to Unity, double click our SplashScreen Scene, to go into it.
+Then, drag the SplashScreen Script into the MainCamera, add Component button area.
+Check that the MainCamera settings are:
+pos x and y = 0
+scale x and y = 1
+size = 14
+Background = 'black'
+
+
+In the SplashScreen Script settings, at the bottom of our Main Camera setting:
+Sec till Scene Load = 5
+Scene to Load = MainScene
+
+******************************** background audio through out the game *************************************
+
+Next, in our SplashScreen Scene we will add background audio, that will play the duration of the game.
+in heirarchy, click Audio and choose Audio Source and rename Audio Source to Music.
+My Audio clip is already in my Sounds folder in Assets, but if not drag your 'music file' into Sounds.
+Select, Music, which you just created and drag your sound fie into, the Audio Clip space, in the Music, Audio Source, settings.
+I lowered the Volume.
+Loop = checked
+Bypass Rever Zone = checked 
+Play On Awake = checked
+
+Next, we will make another script, to continue playing the Music, after the MainScene loads.
+Still in SplashScreen, in assets right click Scripts, Create, C# Script and rename to ContinuePlayingMusic.
+
+After returning from VS to Unity.
+Select hierarchy Music, and drag our ContinuePlayingMusic script, into its settings below the add component button.
+
+
+************************************************ video spalsh screen ******************************************
+
+After, everything involved in creating our SplasScreen up until now, we will add a video to our SplashScreen.
+Check, that you have the Splashscreen Scene loaded.
+
+First, in The SplashScreen scene, we will right click on our Videos folders and Create, new 'Custom Render Texture',
+which we will rename to Render Texture.
+Set the settings Size, to the size of your videos, width and heigth.
+Mine is 544 x 484, and that is it for this portion.
+
+Add hierarchy, +, UI, Canvas, then go to its setting area and set:
+pos x and y = 0
+scale x and y = 1
+render mode = worldspace
+dynamic pixels per unit = 10
+Also drag our main camera into the Event Camera 'space provided'
+
+After adding canvas to our SplashScreen and setting it up, next we will add:
+In hierarchy, Right click on Canvas, UI, and choose Panel.
+We will now have a panel superimposed upong the Canvas.
+If the panel shows on the sides of the video, change color to transparent.
+
+Next, right click on hierarchy, Canvas, Panel, then UI, and choose 'Raw Image'.
+Center the Raw Image within panel, and adjust it pos x and y to your videowidth and heigth dimmensions.
+Drag, your Render Texture into the Raw Image settings area, into the space next to Texture.
+
+Next, right click on hierarchy, Canvas, Panel, then UI, Video and choose 'Video Player'.
+Next, select Video Player, and drag your video into the empty space in Settings, Video Player, Video Clip.
+Next with drag you Render Texture file, into the Target Texture empty box.
+
+********************************** end game with escape **************************************
+
+We added this to Shape.cs, SplashScreen.cs and GameOver.cs to end the game if the escape key is pressed.
+
+// if escape key is pressed the game end abruptly
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+
+
+
+
+// get stored initials and display them in initial text labels
+    void GetDisplayInitials()
+    {
+        // in the event that there hasn't been anything stored yet in storedHighScore, averts the potential error, for value doesn't exist
+        if (PlayerPrefs.HasKey("storedInitials1"))
+        {
+            if (GameObject.Find("Initial1").GetComponent<Text>())
+            {
+                var initial1 = GameObject.Find("Initial1").GetComponent<Text>();
+
+                // set our int highScore to our high score playerprefs stored value
+                string firstInitial1 = PlayerPrefs.GetString("storedInitials1".ToString());
+                initial1.text = firstInitial1.ToString();
+                if (initial1)
+                {
+                    initial1.GetComponent<Text>().enabled = true;
+                }
+            }
+        }
+        if (PlayerPrefs.HasKey("storedInitials2"))
+        {
+            if (GameObject.Find("Initial2").GetComponent<Text>())
+            {
+                var initial2 = GameObject.Find("Initial2").GetComponent<Text>();
+
+                // set our int highScore to our high score playerprefs stored value
+                string firstInitial2 = PlayerPrefs.GetString("storedInitials2".ToString());
+                initial2.text = firstInitial2.ToString();
+                if (initial2)
+                {
+                    initial2.GetComponent<Text>().enabled = true;
+                }
+            }
+        }
+        if (PlayerPrefs.HasKey("storedInitials3"))
+        {
+            if (GameObject.Find("Initial3").GetComponent<Text>())
+            {
+                var initial3 = GameObject.Find("Initial3").GetComponent<Text>();
+
+                // set our int highScore to our high score playerprefs stored value
+                string firstInitial3 = PlayerPrefs.GetString("storedInitials3".ToString());
+                initial3.text = firstInitial3.ToString();
+                if (initial3)
+                {
+                    initial3.GetComponent<Text>().enabled = true;
+                }
+            }
+        }
+    }
+
+
+
+
+    // disable all 3 initial text labels
+    void DisableInitialsLabels()
+    {
+            // finds our 3 initials in each dropdown and gets the text stored in them
+    var textInitials1 = GameObject.Find("Initial1").GetComponent<Text>();
+    var textInitials2 = GameObject.Find("Initial2").GetComponent<Text>();
+    var textInitials3 = GameObject.Find("Initial3").GetComponent<Text>();
+
+    if(textInitials1)
+        {
+            textInitials1.gameObject.SetActive(false);
+        }
+    if (textInitials2)
+        {
+            textInitials2.gameObject.SetActive(false);
+        }
+    if (textInitials3)
+        {
+            textInitials3.gameObject.SetActive(false);
+        }
+
+    }
+
+

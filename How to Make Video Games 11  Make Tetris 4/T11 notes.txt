@@ -1,0 +1,34 @@
+Tutorial 11 at:
+https://www.youtube.com/watch?v=UIYnimouJe0&list=PLGLfVvz_LVvSYnwKyw9xP5tEn7GSUWwZJ&index=11
+
+http://www.newthinktank.com/2017/07/make-video-games-11/
+Only 2 videos remain until we finish Tetris! In this video we will focus on deleting full rows. 
+We will search each column in each row to find those full of cubes. Then we’ll delete them in the array as well as in the scene. 
+Then we have to bring all blocks above down and then increase the score on the screen.
+
+Like always all the code is available under the video below. Do with it what ever you’d like.
+
+I noticed, that MyArray was not showing the last five, to the bottom, rows in the grid view, of my game.
+To fix this, I selected MyArray and set the Scale for the x / y positions .5 less than they where set at.
+Now all 20 rows appear in the X N, grid, all the way to the very bottom.
+
+In this tutorial 11, we will cycle through the rows, in our gameplay grid, and also the columns, and delete the ones that have been filled,
+with the shapes, move the next rows down, as we add to our score, for the game
+
+We will start, in the GameBoard.cs, so continue with our notes there...
+
+After returning from adding our GameBoard.cs after creating; DeleteAllFullRows(), IsRowFull(), and DeleteGBRow functions.
+We will resume coding, in our Shape.cs, where we can test the functions, we jus created, in a place where the shapes are moving downwards, 
+Where the 's' key is used to go downwards, seems good, so continue there...
+
+Returning from Shape.cs, after adding the call for DeleteAllFullRows(), we will next go into Unity,
+and run the game, to see if it works as expected.
+Partial success:  the bottom row was deleted, and the next row became the bottom, but the row above that one, did not.
+
+We will continue, inside Shape.cs, at the TODO, where we will add the score; continue there...
+
+After returning from Shape.cs after creating IncreaseTextUIScore() to increase the score, lets test it;
+run the game in Unity...
+
+It works!
+

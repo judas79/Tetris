@@ -1,0 +1,158 @@
+Tutorial:
+https://www.youtube.com/watch?v=_G7jggODYy4&list=PLGLfVvz_LVvSYnwKyw9xP5tEn7GSUWwZJ&index=9
+
+Tutorial code, by teacher:
+http://www.newthinktank.com/2017/07/make-video-games-9/
+
+
+In this video I continue creating Tetris! This time I cover how to Move and Rotate Shapes, 
+Except Keyboard Input, Spawn Shapes, Handle Custom Collisions, Debug, Make Shapes Fall, 
+and Move Objects at Different Time Frames.
+
+Like before I create all the code here blind with no previous preparation. 
+All the code follows the video below.
+
+First, rename the Scene, in your Scene folder to MainScene, if it has already been done.
+
+
+************************** ShapeSpawner.cs Script ************************************
+
+Right click on Scripts folder Create, C# Script and name it ShapeSpawner.
+Double click the ShapeSpawner.cs, to open Visual Studio, and the notes will continue on that document,
+in the form of comments....
+
+Returning from our ShapeSpawner.cs Script.
+In Unity, in Hierarchy, create, Create Empty and rename it ShapeSpawner.
+Select ShapeSpawner, in Hierarchy, then go to scripts, and drag the ShapeSpawner script, down to the bottom,
+below the add component button, of ShapeSpawner.
+In our setting, click to expand the Shapes triangle, and enter:
+Size = 7
+We will now have 7 Element space, which are empty.
+Add all seven of your Prefab Shapes in each one of those, one at a time.
+In the Scene Window, drag the ShapeSpawner toward the top center of your rectangular game play space, to test it.
+
+******************************** Shape.cs script **************************************
+
+Next we will figure out how to keep the Shape, the shape at that particular moment, within our binding box field; the play area, within the walls.
+The Shape will be chosen randomly, one at a time, from our Shapes in the list we put in ShapeSpawner, earlier, and that Shape will be manipulated, 
+by the keys, we create, below, for the direction they go or rotate.
+So...At the same time we need to figure out how to rotate and move the shape up, down, left and right, within our game.
+Create a C# Script, in Scripts and name it Shape.
+Then go to our Shape.cs script and continue our notes and work there....
+
+In order to Monitor when user clicks on different keys, We will go into our Unity, edit, Project Settings, input(Manager).
+Then in Axis, we will create some new inputs.
+We wan the to rotate and move up, down, left and right
+We want them inputs to work with letters:  a  w  s  d.
+To create empty input fields within Axes, change the size from 18 to 22, and it will generate 4 'Cancel' inputs, 
+plus the one that was already there, to make a total of 5.
+
+Click on the sideways triangle, of the second Cancel input, to expand the contents, we will leave the cancel above it alone.
+This is where we will define our own shapes:
+Name = a
+Positive Button = a
+Alt Positive Button = (clear the entry, so that it is a blank field)
+leave the rest of that one, as it is.
+Then click the little a by the triangle, to collapse it
+
+Next, for the next 3 cancel input areas, do the same exact thing for:   d   w   s
+save scene, save
+
+Then go back into the Shape.cs script to set them up...
+
+Return back to Unity, after working on our Shape.cs Update positions.
+Got to the Prefab folder and select all of our shapes
+Then drag our Shape script, into the Prefab shapes, settings area, under the add component button.
+You should be able to see that Speed = 1, in the serttings area.
+
+Next, start the game and see how the end peice of one of the shapes aligns with the left and right walls.
+Get it, so that when you go to the left wall, using your a key it just touches it, on the left, 
+and do the same on the right to get the shape centered as well as possible, between the tool walls.
+
+Next we will use the " Debug.Log(transform.position);" we wrote in our shapes.cs to see what the coordinates, of our shape, 
+when it intersects with the border of our righwall, leftWall and bottomWall is, so we can set the borders, where the shapes can't pass beyond.
+
+LeftWall = X (-4.5, 7.6, 0.0)
+UnityEngine.Debug:Log(Object)
+Shape:Update() (at Assets/Scripts/Shape.cs:40
+
+RightWall X = (3.5, 7.6, 0.0)
+UnityEngine.Debug:Log(Object)
+Shape:Update() (at Assets/Scripts/Shape.cs:54)
+
+BottomWall Y = (3.5, -9.4, 0.0)
+UnityEngine.Debug:Log(Object)
+Shape:Update() (at Assets/Scripts/Shape.cs:68)
+
+Next, we will go back in "Shape.cs" to make a function, that figures out wheather we are withing the borders, or not...
+
+Returning from our shape.cs, after writing two functions, IsInGrid() and IsInBorder(), to use a child of our
+shape, cube container, to better use its center to stop the shapes, at the game borders.
+
+Next we will go back into unity and get the x, y for our left right bottom walls using the cubes positions in the settings area, 
+then plug thse numbers, into our IsInBorder() function, as a more accure location for each wall.
+
+LeftWall cube position x = -4.5
+RightWall cube position x = 4.5
+BottomWall cube position y = -9.4
+
+After this change, my shapes quit moving by 90 percent!
+
+Also, we forgot to drag our main camera into Canvas, so do so now then try the game to see how the changes affected the game
+
+We will try to fix the problems, with our shapes by centering the point of origin to 0, and work our way out to finish our shape from there.
+To open and edit the shape in unity 2019, select the shape then click the open prefab button, to see it in our scene window.
+To close the prefab window for a shape, click on the #Scene Scene tab, next to the (name of Prefab, you are working on) tab, in the Scene screen area.
+
+IShape x and y positions settings:
+Ishape = 0 0
+cube = 0 0
+cube1 = 1 0
+cube2 = -1 0
+cube3 = 2 0
+ 
+JShape = 0 0
+cube = 0 0
+cube1 = -1 0
+cube2 = 1 0
+cube3 = 1 -1 
+
+LShape = 0 0
+cube = 0 0
+cube1 = -1 -1
+cube2 = 1 0
+cube3 = 2 0
+
+OShape = 0 0
+cube = 0 0
+cube1 = 1 1
+cube2 = 1 0
+cube3 = 0 1
+
+SShape = 0 0
+cube = 0 0
+cube1 = 1 0
+cube2 = 0 -1
+cube3 = -1 -1
+
+TShape = 0 0
+cube = 0 0
+cube1 = -1 0
+cube2 = 1 0
+cube3 = 0 -1
+
+ZShape = 0 0
+cube = 0 0
+cube1 = -1 0
+cube2 = 0 -1
+cube3 = 1 -1
+
+Check you shapes in relation to you right left bottom walls again to center everything, after moving the shapes to all three sides.
+
+Last we will set it up, so that our shapes fall automatically (travel downward), 1 step at a time, within the walls, to the bottom.
+We will tie this movement directly to the Input.GetKeyDown to the letter "s".  We will mimic the s key being pressed, by setting our Shape,
+to go down 1 steo every second, automatically.  We will have to track the last time, the shape movement went down, and increment that once a second.
+So go back into scripts.cs and continue there...
+
+Try out your newest code.
+If you launch my game build so far, you will need to click the windows button to get access to the icon for the executable, to close it.

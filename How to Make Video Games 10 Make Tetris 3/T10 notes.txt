@@ -1,0 +1,155 @@
+Tutorial 10
+https://www.youtube.com/watch?v=RwJ4FZFePmk&list=PLGLfVvz_LVvSYnwKyw9xP5tEn7GSUWwZJ&index=10
+
+http://www.newthinktank.com/2017/07/make-video-games-10/
+We continue making a Tetris clone in this video. Our goal this time is to get those Tetris shapes to stack on each other. 
+A lot more goes into that then we may have thought. I’ll be covering Simulating Game boards in Arrays, Printing Arrays, 
+Removing Event Handling from Objects, Instantiating Objects, Debugging, Moving All Shapes in a Scene and a whole lot more.
+
+I continue with my new teaching format in which I make mistakes and then fix them to help you learn. 
+All of the code follows the video below.
+
+"Every game object in your scene has a transform, which allows you to change the objects position, rotation and scale."
+"Could anyone explain to me what does [,] mean???   It means empty two dimensional array."
+"I'm no expert but I believe that GameBoard.gameBoard[x,y].parent == transform in other words is asking if gameBoard at x, y is literally the same as the local transform. 
+The ".parent" refers to the gameBoard[x,y] as a whole."
+
+
+Some things that need fixing, since the prior tutorial:
+
+Have the Shape be able to rotate counter clockwise.
+Have the shapes stop moving, when they reach the bottom of the screen,
+and have new shapes appear.
+
+We will simulate the Shapes inside an array of cubes, (see image in folder), so we can get them to stop moving, when they reach the bottom of the playing screen.
+This array simulation will also get rid of the places, that the shape use to be in, as they go down the screen.
+This will also be used, to stop the cubes from moving, when they become in contact with another cube.
+
+******************************* GameObjectGroup **********************************
+
+First, instead of having all our x and y points, for our game borders, start at decimal point coordinates, we want them to start at 0 0.
+So we need to change the walls and all the starting points for our Shapes at one time, as apposed to one at a time.
+Instead of the following, which is the the walls coordinates are currently defined in shapes.cs:
+
+return ((int)pos.x >= -4.5 && (int)pos.x <= 4.5 && (int)pos.y >= -9.4);
+
+We will have to move the walls, x axis 4.5 to the right and the y axis 9.4 up.
+
+To do this we will 'Create Empty' (GameObject) and stick everything inside it, as a container.
+So, make sure nothing is selected and Create Empty and rename it to GameObjectGroup.
+Next, we will select everything, including the main camera, in our Inspector, and move it in GameObjectGroup.
+Now, we can move the game around as a whole.
+
+Next we will select the GameObjectGroup and change the settings positions to:
+x = 4.5
+y = 9.4
+
+Then in our Shapes.cs we can change our returned values to, the middle x position is the rightwall position:
+return ((int)pos.x >= 0 && (int)pos.x <= 9 && (int)pos.y >= 0);
+
+Try the new changes by playing running the game.
+
+The x and y are both off by 1.  The shapes do not touch the left wall or bottom.
+The camera on mine looks fine, so we will leave that alone, adjust it if its no longer centered.
+First we subtract one to fix our right wall, in the center x position:
+return ((int)pos.x >= 0 && (int)pos.x <= 8 && (int)pos.y >= 0);
+Next we changed the x and y positions for our gameobjectgroup LeftWall and Bottom to:
+x = 5.5
+y = 10.4
+Centered once more, yay.
+
+*************************** stop shapes from moving when contact is made ************************
+
+Next, we will work on stoping the shapes, from moving when they hit the bottom, and spawn a new Shape.
+We will continue in the Shapes.cs script, in the Input.GetKeyDown("s") area, where we control the decent of the Shapes...
+
+I had a problem calling my SpawnShape(function) because I had it set to private; changed it to public, and all is well
+After returning from fixing the shapes hitting the bottom, and spawning a new shape, run it to see if it works.
+
+Thats all working, so we will move on to, creating another key "e" so we can rotate our shapes clockwise, as well as counter clockwise.
+We will do this by coping the "w" key function and changing a few things.
+Go inot the Shaoe.cs and create the new rotation "e" key function.
+
+After returning Shapes.cs having completed the reversal of the degrees of the turns and creating the 'e' key function, 
+we need to go into edit, project settings, input(manager) and create the input settings for our e key.  Do that, then,
+in Axes, change the size to 23, then there will be a duplicate s key in there change that to e.
+Name = e
+Positive Button = e
+alt positive button = blank (it should already be empty)
+collapse the e, by clicking the triangle.
+
+Try out our new code and setting by running the game and rotating the shapes with the e and w keys.
+
+******************************* create GameBoard.cs for grid array ***************************
+
+Next, we will create a new script, to hold our grid for the game, that everything else will be based off of, and name it, GameBoard.cs
+Right click the Scripts folder and choose Create, C# script, rename it to GameBoard.
+Then go to the GameBoard.cs, in VS, to continue there...
+
+**************** place within a function to determine if cell is vacant for shape cubes ********************
+
+After saving, and returning after creating:
+public static Transform[,] gameBoard = new Transform[10, 20];
+in our GameBoard.cs, we will now continue in our Shape.cs to create a way to detect,
+if there are empty cells for our shapes.  We will start creating this in our IsInGrid() function,
+in our Shapes.cs, so go there....
+
+After comming back from Shape.cs and working on  UpdateGameBoard(), lets run it in Unity to test it.
+Mine worked pretty good, until the Shapes piled up, and started spawninf on top of eachother.
+In the tutorials example did not, because they omitted .parent on this line, in the IsInGrid() function;
+ GameBoard.gameBoard[(int)vect.x, (int)vect.y] != transform)
+ it should be like this:
+  GameBoard.gameBoard[(int)vect.x, (int)vect.y].parent != transform)
+
+**************************** array grid on the side of the game area ***********************
+
+Next, we will create a simulated grid, of the game play area, off to the left side of the game play area,
+to display as a simulated grid.  It will track the cells, that the shape, cubes occupy, as they fall to the bottom of the game,
+as x's in the grid, in real time, as the cubes of the shapes decend.  
+This will be a grid view as well as still having the gameview of the cells, while the shape, move through them.
+
+First we will create a text comonent, in Unity, to use as the frame of the grid, inside of our canvas.
+Right click Canvas, UI, then choose Text and rename to MyArray.
+Scale down MyArray settings:
+Scale x = .2
+Scale y = .2
+font size = 3
+color = white
+
+Drag the MyArray over to the left side area, next to our games' LeftWall area, and stretch the top,
+up to the NextLabel, and the bottom to the horizontal plain ot the BottomWall, so that it mimics, 
+the dimmensions, of our game play area.
+
+Next, we will go into the GameBoard.cs script area to create a temporary funtion that simulates 
+by printing it out to our MyArray, everything that is in the gameboard area.
+You will need this library added to your Gameboard.cs, to write X's and Y's, as text to MyArray
+using UnityEngine.UI;
+Continue in GameBoard.cs...
+
+After completing the  PrintArray() function in GameBoard.cs, we will need to go into our Shape.cs,
+and call it from in there.
+Continue in Shape.cs...
+
+After comming back from Shape.cs and calling GameBoard.PrintArray();
+run the game to see if it worked...
+It, works, but the shapes sometimes, become stuck on othe shapes, without being inserted to its lowest posible elevation.
+In the text simulation of the array, x's do not appear, as the x shapes, reach the bottomWall.
+
+So, lets go back into Shape.cs and see whats wrong.  Continue in Shape.cs...
+If we do not cast out x,y values as (int), we find that the problem lies, with the conversion of decimal values in float values, into int values.
+We need to round up the values of the float values, to int values.
+So, we will add a function to do that in Shape.cs, so continue there; right before the IsInBorder() function...
+
+After we changed the IsInBorder position value for the RightWall x position value, up one:
+// T10 after adding our RoundVector() function to round floats up we have to change the RightWall, 
+// x position value, one from 8 to 9
+        return ((int)pos.x >= 0 && (int)pos.x <= 9 && (int)pos.y >= 0);
+We still have the problem, that the Shapes do not go down to the very bottom layer.
+
+We will fix this in Unity.
+Click our GameObjectGroup and add -1 to our y position, if you game doesn't go to the bottom level.
+Mine did not have this problem.
+
+
+
+

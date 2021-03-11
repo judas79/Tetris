@@ -1,0 +1,172 @@
+Get code and images and sounds for the game here:
+http://www.newthinktank.com/wordpress/TetrisAssets.zip
+
+In this video I start making one of the greatest games ever being Tetris! I’m trying something new this time. 
+In previous videos I tested ideas before videoing them. This time I will create Tetris with no previous preparation. 
+I’ll test my way through creating the whole game.
+
+I think this will benefit people because they’ll see me make mistakes and then see how I go about solving problems. 
+In this first video I show how to draw everything in Gimp. I then setup the game, create the borders, the interface and then all the tetrominos. 
+I hope you enjoy this series and learn a lot.
+
+********************************** create cube.png *******************************
+
+https://www.youtube.com/watch?v=CrkPokBIvEA&list=PLGLfVvz_LVvSYnwKyw9xP5tEn7GSUWwZJ&index=8
+
+Create the cube,for Tetris in Gimp, or get it from the link, above.  Make the Cube 20 x 20 pixels.
+Save cube as .png.
+The playing grid is 10 cells by 20, we will make it 12 by 20 to copernsate for the outer box of it overlapping.
+
+
+********************************* set up game ***************************
+Remember to Save Scene, every so often, and name the Scene in the Scene folder, MainScene.
+Make the Tetris folder to create the unity game in, the choose the folder and create the 2d Unity game; Create Project.  Drag those downloaded images and souds, 
+inside the Tetris Assests zip file or folder if expanded, into the top Tetris folder, for the game.
+Inside Unity, under Assets creat these folders:
+Sounds
+Scenes
+Prefabs
+Scripts
+Sprites
+
+Drag Cube.png into Sprites folder
+Drag all sound clip files into Sounds folder
+
+Set Main Camera Up:
+Background = choose Black in color wheel popup
+Size = 20 (for now)
+
+********************** Make Walls *************************
+
+In Hierarchy create, Create Empty, rename to HorzWall.
+In Hierarchy create, Create Empty, rename to VertWall.
+
+Drag Cube from Sprites folder into Hierarchy, HorzWall.
+Inside HorzWall, dulpicate Cube, 11 times, for a  total of 12 cubes.
+The first cube in HorzWall should have its x and y position set to 0.
+
+Select  cube in sprites folder and adjust the settings:
+pixels per unit = 20;   which is the same as our cube size, when it was created in Gimp.
+Filter Mode = Point
+click apply.
+
+Next click cube(1) in our Hierarchy and change the Position x = 1.
+Then cube(2) Position x =2;  
+Go up x: 1++ for each position to cube(11); for all of them
+You should now have a horizontal wall made of cubes, in Scene window.
+Collapse the HorrizWall then select it, and drag it into the Prefabs folder.
+Delete HorrizWall from the Hierarchy list.
+
+Drag Cube from Sprites folder into Hierarchy, HorzWall.
+Inside VertWall, dulpicate Cube, 19 times, for a  total of 20 cubes.
+The first cube in VertWall should have its x and y position set to 0.
+
+Next click cube(1) in our Hierarchy and change the Position y = 1.
+Then cube(2) Position y =2;  
+Go up y: 1++ for each position to cube(19); for all of them
+You should now have a vertical wall made of cubes, in Scene window.
+Collapse the VertWall then select it, and drag it into the Prefabs folder.
+Delete VertWall from the Hierarchy list.
+
+Next, drag in 2 VertWall from your prefab folder into the Hierarchy list.
+Rename one LeftWall and the other RightWall.
+
+Next, drag in 2 HorzWall from your prefab folder into the Hierarchy list
+Rename one TopWall and the other BottomWall.
+
+Next, click the main acamera and adjust the size from 20 to 12, it was to big.
+
+Next, line up your left and right walls on the inside of the camera area, aligned evenly, in a horizontal plain.
+The Two side walls go inside of the borders of the top and bottom walls
+
+  topwall
+____________
+|          | <- RightWall inside the edge, of the TopWall
+|          |
+
+Select all four walls, in inspector, and center your rectangle.
+Use the camera image in the scene window, as a reference point, to center your rectangle around.
+After all walls are aligned, you should have a seemless rectangle.
+
+********************* create Interface ************************
+
+Next we will create our interface.
+First you can collapse, all the walls down, to make things easier to see.
+Next from the hierarch create, UI, choose text.
+This will create Canvas, with Text, inside it.
+Rename Text to NextLabel, and in its setting: Text = NEXT
+
+Mext select Canvas in Hierarchy, and change settings:
+Render Mode = World Space
+Dynamic Pixel Mode = 10
+Position x and y = 0
+Width = 55
+Height = 25
+
+Get the Canvas width and height to, just be on the outside of the rectangle, of the main camera, 
+by messing with the numbers.
+
+Next drag the NextLabel, to the top left of our wall rectangles, but not touching the LeftWall.
+Using Scale, in our NextLabel settings, is the best way to get the clearest text, when getting the proper size, for the label.
+Using the larger font sizes, to scale, creates a more blurry image.
+NextLabel settings:
+Font Type = Bold
+Font size = 10
+Color = White
+Scale x and y = 0.15
+width = 55
+heigth = 25
+
+Make a duplicate of the NextLabel and name it ScoreLabel.
+Change ScoreLabel Text setting to Score.
+Drag the ScoreLabel to right side of the playing field(the rectangle).
+Click the Alignment 'center' button, to center the ScoreLabel.
+Font size = 10
+
+Next, make sure the position of the y axis for Scorelabel, is equal to, NextLabel position y axis.
+Then duplicate ScoreLabel and name it Score.
+Settings:
+Score Text = 0
+Drag Score down straight below the scorelabel.
+
+**************************** Tetris Shapes ***********************************
+
+Next we will work on the Tetris Shapes, Thes are the colors and corresponding shapes:
+IShape = Blue 4 ----
+JShape = light blue 4 ___
+                        |
+LShape = Mustard 4  ____
+                    |
+OShape = Yellow 4 --
+                  --
+SShape = florecent green 4   --
+                            --
+TShape = dark pink 4 ---
+                      |
+ZShape = red 4 --
+                --
+
+First drag a cube from the Sprites folder into the Scene window
+Set its Positions for x and y to 0
+in Hierarchy, create Empty, 
+Setting for Create Empty now named GameOject; positions y and x = 0
+then drag the cube in it, from the Hierarchy list.
+Rename GameObject to OShape.
+Make 3 duplicates, for a total number of 4 of them.
+Drag them into an OShape:
+cube: x = 0 y = 0
+cube(1) x = 0  y = 1
+cube(2) x = 1  y = 1
+cube(3) x = 1  y = 0
+
+Notice the cubes only change by 1 value, to make the OShape, and the other shapes will have much in common.
+Next, select all 4 cubes that make up the OShape and set the Color to Yellow.
+
+collapse the cubes in OShape and drag OShape into Prefabs.
+Then delete OShapes from our hierarchy list area.
+
+Next, use this same type of method, to create all the other shapes listed above, one at a time.
+Try to make them centered (balanced left and right), as much as possible, without using fractions
+
+
+

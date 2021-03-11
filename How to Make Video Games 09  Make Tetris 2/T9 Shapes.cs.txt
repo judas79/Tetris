@@ -1,0 +1,189 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Shape : MonoBehaviour
+{
+    // T9 figure out what sort of things we are going to do with this shape
+    // Increase the speed as difficulty increases
+    // Monitor when user clicks on different keys, We will go back to Unity to define the inputs
+    //
+
+    // Increase the speed as difficulty increases
+    // Define speed
+    public float speed = 1.0f;
+
+    // keep track of the last movement down, of the current Shape, will be incremented once a second
+    float lastMoveDown = 0;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // T9 we will do the same kind of if statement for all four input keys we created
+
+        // T9 Monitor if an input key is pressed one time
+        // and its the 'a' key
+        if (Input.GetKeyDown("a"))
+        {
+            // T9 Then we want the position, to change 1 step to the left, for our Shape
+            // it will know we mean the Shape object
+            transform.position += new Vector3(-1, 0, 0);
+
+            // we know we want to prevent the shape from leaving the play area,
+            // but do not know how, so we will instead get a read out onthe screen,
+            // of our transport. position, to aid us in figuring it out
+            Debug.Log(transform.position);
+
+            // T9 stop the movement, or rotation of shape, if it is hitting a border
+            // by returning the shape to its last position, when it hits the border, 
+            // using NOT IsInBorder, to do the opposite of what we just did,
+            // we pass transform.position to IsInBorder, to give it the position
+            // if your run the gme now, you will notice it stops one too late, on the border, 
+            // so subract 1, or add one, depending what the inversive of the coordinate was, 
+            // BELOW (in the IsInBorder() function)
+            //if (!IsInBorder(transform.position))
+            // T9 we have to change this, to use our IsInGrid, instead of using the shape position
+            // we will use the child center of square position, to calculate our position to the walls and bottom
+            if(!IsInGrid())
+            {
+                transform.position += new Vector3(1, 0, 0);
+            }
+        }
+
+        // T9 Monitor if an input key is pressed one time
+        // and its the 'd' key
+        if (Input.GetKeyDown("d"))
+        {
+            // T9 Then we want the position, to change 1 step to the right, for our Shape
+            // it will know we mean the Shape object
+            transform.position += new Vector3(1, 0, 0);
+
+            // we know we want to prevent the shape from leaving the play area,
+            // but do not know how, so we will instead get a read out onthe screen,
+            // of our transport. position, to aid us in figuring it out
+            Debug.Log(transform.position);
+
+            // T9 stop the movement, or rotation of shape, if it is hitting a border
+            // by returning the shape to its last position, when it hits the border, 
+            // using NOT IsInBorder, to do the opposite of what we just did,
+            // we pass transform.position to IsInBorder, to give it the position
+            // if your run the gme now, you will notice it stops one too late, on the border, 
+            // so subract 1, or add one, depending what the inversive of the coordinate was, 
+            // BELOW (in the IsInBorder() function)
+            //if (!IsInBorder(transform.position))
+            // T9 we have to change this, to use our IsInGrid, instead of using the shape position
+            // we will use the child center of square position, to calculate our position to the walls and bottom
+            if (!IsInGrid())
+            {
+                transform.position += new Vector3(-1, 0, 0);
+            }
+        }
+
+        // T9 Monitor if an input key is pressed one time
+        // and its the 's' key, 
+        // or if its been one second since the shape last moved, 
+        // the first time thu value will equal 1 then increment by 1, every second
+        // then subtract the lastMoveDown, and compare that it is more thanf 1, to know that 1 second has past
+        if (Input.GetKeyDown("s") || Time.time - lastMoveDown >= 1)
+        {
+            // T9 Then we want the position, to change 1 step down, for our Shape
+            // it will know we mean the Shape object
+            transform.position += new Vector3(0, -1, 0);
+
+            // we know we want to prevent the shape from leaving the play area,
+            // but do not know how, so we will instead get a read out onthe screen,
+            // of our transport. position, to aid us in figuring it out
+            Debug.Log(transform.position);
+
+            // T9 stop the movement, or rotation of shape, if it is hitting a border
+            // by returning the shape to its last position, when it hits the border, 
+            // using NOT IsInBorder, to do the opposite of what we just did
+            // we pass transform.position to IsInBorder, to give it the positio
+            //if (!IsInBorder(transform.position))
+            // T9 we have to change this, to use our IsInGrid, instead of using the shape position
+            // we will use the child center of square position, to calculate our position to the walls and bottom
+            if (!IsInGrid())
+            {
+                transform.position += new Vector3(0, 1, 0);
+            }
+
+            // T9 reset lastMoveDown to the previous version of time, each time it goes through here
+            lastMoveDown = Time.time;
+        }
+
+        // T9 Monitor if an input key is pressed one time
+        // and its the 'w' key
+        if (Input.GetKeyDown("w"))
+        {
+            // T9 Then we want the position, to change it, to rotate 90 degrees, for our Shape
+            // it will know we mean the Shape object
+            transform.Rotate(0, 0, 90);
+
+            // we know we want to prevent the shape from leaving the play area,
+            // but do not know how, so we will instead get a read out onthe screen,
+            // of our transport. position, to aid us in figuring it out
+            Debug.Log(transform.position);
+
+            // T9 we have to change this, to use our IsInGrid, instead of using the shape position
+            // we will use the child center of square position, to calculate our position to the walls and bottom
+            // this one does the opposite angle, reverses itself, from the 90 it did previously
+            if (!IsInGrid())
+            {
+                transform.Rotate(0, 0, -90);
+            }
+        }
+    }
+
+    // T9 cycle through all the child object shapes, 
+    // and check the central positions for those child objects with childCount
+    public bool IsInGrid()
+    {
+        // keep in mind how we will debug the child count var
+        int childCount = 0;
+
+        // T9 create the child cube for the shapes, transfrom is for the child cubes position
+        // of the total shape in a cube child, the center mark of our shape
+        foreach(Transform childBlock in transform)
+        {
+            Vector2 vect = childBlock.position;
+
+            // T9 increment child count for debugging purposes
+            childCount++;
+
+            // T9 written to Unity console: the childCount name and its chilc block position
+            Debug.Log(childCount + " " + childBlock.position);
+
+            // T9 if its NOT the, passed in vect (childBlock position)
+            if(!IsInBorder(vect))
+            {
+                return false;
+            }
+        }
+        // T9 if it is the childBlock position
+        return true;
+    }
+
+    // T9 figure out weather shape is within the borders or not
+    // true or false if shape position is within the x left border, x right border and y bottom border
+    public static bool IsInBorder(Vector2 pos)
+    {
+        // T9 We need to subract or add 1 from the data we got for the two x and y position earlier,
+        // because the positions reflect the center of the borders, not the inside of the borders
+        //return ((int)pos.x >= -4.5 && (int)pos.x <= 4.5 && (int)pos.y >= -9.4);
+        //return ((int)pos.x >= -3.5 && (int)pos.x <= 3.5 && (int)pos.y >= -8.4);
+        // T9 changed once againt to use our setting for the left right and bottom walls, as they are in the setting
+        return ((int)pos.x >= -4.5 && (int)pos.x <= 4.5 && (int)pos.y >= -9.4);
+
+        // T9 IMPORTANT Now if you run the game, You will notice that the central point of each shape is not in the same location,
+        // this makes, certain shapes not be at the wall edge, because they are not shaped the same,
+        // So we will make each shape, belong in a virtual cube, around the shape, to be able to center properly, in respect to the walls,
+        // in FUNCTION IsInGrid()
+    }
+
+}

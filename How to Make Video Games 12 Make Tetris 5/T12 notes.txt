@@ -1,0 +1,133 @@
+Tutorial 12
+https://www.youtube.com/watch?v=8A7hgS-6I08&list=PLGLfVvz_LVvSYnwKyw9xP5tEn7GSUWwZJ&index=12
+
+http://www.newthinktank.com/2017/07/make-video-games-12/
+In this part of my How to Make Video Games Tutorial series we finish Tetris!!! We add sounds, increase game difficulty, 
+create a game over scene, display the next Tetris shape before it is displayed and much much more.
+
+Like always all of the code follows the video below. The images and sounds are here. 
+The next game I’ll be making will be a Super Mario Clone! I’ll start uploading it this Saturday.
+
+First, we will add all the Sound files to Unity, into the Sound folder, in our Assets group,
+if you haven't added them, already.  You can find all the sounds, in this Sound folder.
+Drag and drop them into Assets, Sound, in the Unity app..
+
+Next, create our Sound Manager in the heirarchy.
+Create, Audio, Audio Source, rename it to SoundManager
+This will allow us to play sound, as we would like.
+
+Next, go into Assets, and right click on the Script folder:
+Click, Create, C# Script, and rename it to SoundManager.
+
+Next, select SoundManager, in our heirarchy, and drag our SoundManager Script, into its setting, below its Add Component button.
+
+Next, double click the SoundManager script, and we will continue our notes in the VS editor...
+
+After returning from setting up our SoundManager, we will go into Unity and drag our Sounds, from our Sounds folder,
+into the SoundManager settings in the Script, of the corresponding sound names.
+In heirarchy, select Sound Manager, the from Sounds drag the corresponding name into the matching slot, in settings.
+
+Next we will go back in GameBoards.cs and Shapes.cs, and add our sounds, to places in the code, that cause and action, 
+that should have a matching sound effect, for it.
+
+After returning from entering sounds in GameBoards.cs and Shapes.cs, try them out, by running in Unity,
+Success!
+
+Next, we will slowly increase the speed of our falling shapes.  
+We will do this in Shape.cs, where we will change our speed to static
+ public static float speed = 1.0f;
+
+Next we will create a new Scene, and name it, GameOver.
+Assets, right click Scene then Create, Scene rename to GameOver
+Click file Save Scene, or save scene in the 3 dots next to main scene.
+Then double click the GameOver Scene.
+
+Inside of the Game over Scene, in its hierarchy Create, UI, Text and rename it to GameOver.
+In the settings, change the Text to:  Text = Game Over (with a space in between the words)
+
+Then click on the GameOver Scenes Canvas, to see its settings.  We will base our settings on what was used in the Main Sene.
+Then we will change the following:
+Render Mode = World Space
+and drag your MainCamera from heirarchy into Event Camera.
+Dynamic Pixels Per Unit = 10
+Pos X, Pos Y, Pos Z all = 0
+Width = 40
+Height = 50
+Color = 'white'
+Scale for x y = .25
+
+Next zoom way out to be able to see our text, we just made, and drag that to the center of our Canvas.
+After dragging it to center, drag the boaeders of the Game Over text box, to make it smaller around the text.
+Zoom back in, and refine your centering of the Game Over borders of the box its in.
+
+Select Main Camera, and change color to Background = 'black'.
+
+Next, to be able to change our scenes we will need to add this scene to the Build Settings.
+Click File, Build Settings, then in the popup box click the Add Open Scenes, button.
+Scenes/GameOver should popup in the display area of our Build Settings dialog box, with a check next to it.
+Then click the x at the top to close our dialog.
+Click Save Scenes, and file, save project.
+
+Next, double click our Main Scene, so that its content is again visible in Heiarchy, 
+so we can add that to our Build Settings.
+Click File, Build Settings, then in the popup box click the Add Open Scenes, button.
+Then drag our Main Scene, to the top, above Scenes/GameOver, and close the Dialog box.
+Now we can use, both of those scenes.
+
+Now we can set up our game, so it has and ending, and also set up,
+increase the speed of the shapes, as the game progresses.
+
+We will do that, in Shapes.cs, so double click the Shapes script, and we will continue there,
+in the Start() area...
+
+We had to add this library at the top of Shapes.cs, to change scenes from main scene to another scene, a.k.a. from main scene to game over scene.
+using UnityEngine.SceneManagement;
+
+After comming back from working on the speed increasing, and game over, change of scenes, go test it in Unity.
+I slowed the speed down, so the speed increasing wouldn't be so abrupt.
+
+ void IncreaseSpeed()
+    {
+        Shape.speed -= .0001f;
+
+If you haven't fixed your LShape, so that it isn't the same as your JShape, do so now.  Mine was set like the Tutorials', 
+which was wrong... Select the LShape in Prefabs, and click open Prefab, in newer versions of Unity, and edit the cubes:
+
+LShape = 0 0
+cube = 0 0
+cube1 = -1 -1
+cube2 = 1 0
+cube3 = 2 0
+
+Instead of commenting out or deleting MyArray Grid, I dragged MyArray to the other side of the game and placed it under the Score.
+The tutorial deletes all of the function, including the call and the Debug.Log("") entries, I commented them out.
+
+Next, we will set up, where we will be displaying the next shape to be loaded, in the ShapeSpawner.cs.
+But first we will need a version, of each shape, in Prefab, that doesn't have a script attached to it.  The script will cause problems.
+So we will make scriptless copies, for each shape in Prefab.
+One at a time, drag each Prefab (x)Shape into ou r Scene window, then rename it to its original name + NS added to the rear end of it: "(x)ShapeNS"
+Then drag that renamed shape back into the Prefab folder, and click prfab varient in the popup box..
+In the Prefab folder, click on that same renamed shape, and choose the three vertical dots, next to the shapes Script settings, and choose Remove Component, 
+then go back into our Hierarchy and delete the renamed shape from there.
+Do this for all the shapes, one at a time.
+
+Next we will continue with out lesson and notes, writing the code to add the next shape, in line to be used, in ShapeSpawner.cs...
+
+
+After returning from creating our array for our next shape, remember to save all in VS;  we will now go into unity and add those shapes, that we removed the script from,
+by dragging the into our SpawnShape script, in settings.
+In  heiarchy, select ShapeSpawner, and you should have a new entry in the ShapeSpawner settings for Next Shapes.  Change its size to 7, which is the amount,
+of no script shapes we have.
+Drag, the (x)ShapeNS, so that they are in the same order as the row of Shapes with Scripts, we had entered some tutorials back.  The NS shapes are in the prefab folder...\
+My Shapes where not in alphabeical order, so be weiry of that. Then save, in unity.
+
+Next we will go back where we left off in ShapeSpawner.cs, and continue setting up our Next Shape area.  Continue there with notes....
+
+After returning from setting up our next shape and moving around our generater for the shapes, save all in VS, then try it out in Unity....
+
+SUCCESS 
+
+The Next shape needed to be tweeked, as far as the position, where it shows up and comming shape to be used next:
+Vector3 nextShapePosition = new Vector3(-7.4f, 17.8f, 0f);
+
+The tutorial is FINISHED.

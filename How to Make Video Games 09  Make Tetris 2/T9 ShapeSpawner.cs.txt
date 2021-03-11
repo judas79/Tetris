@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ShapeSpawner : MonoBehaviour
+{
+    // T8 We will need to randomly open up shapes
+    // there are a total of 7 shapes
+
+    // T8 We will need a place to store those shapes...
+    // this is public so we can put them in the array, after being defined in Unity
+    // in an array of GameObjects[]
+    public GameObject[] shapes;
+
+    // T8 spawn these random shapes function
+    private void SpawnShape()
+    {
+        // T8 generate a random index between 0 and 6, to accomidate the 7 shapes
+        int shapeIndex = Random.Range(0, 7);
+
+        // This will show it on the screen, call shapes and in particular,
+        // the random shapeIndex number the shape is assigned to.
+        // transform.position will spawn at the position determined by where our shape spawner currently is on the screen
+        // Quaternion.identity handles our rotation, which we are not using
+        Instantiate(shapes[shapeIndex], transform.position, Quaternion.identity);
+    }
+
+    // T8 Use this for initialization
+    // Start is called before the first frame update
+    void Start()
+    {
+        // T8 test by calling SpawnShape() as soon as the program starts(test this in unity then uncomment it)
+        SpawnShape();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
